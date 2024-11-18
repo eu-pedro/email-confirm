@@ -2,6 +2,8 @@ interface Props {
   id: string
   email: string
   username: string
+  validation_id: string | null
+  checked: Date | null
 }
 
 export class User {
@@ -12,7 +14,9 @@ export class User {
     new User({
       id: crypto.randomUUID().toString(),
       email,
-      username
+      username,
+      checked: new Date(), 
+      validation_id: crypto.randomUUID().toString()
     })
   }
 
@@ -30,5 +34,13 @@ export class User {
 
   public get username() {
     return this.props.username
+  }
+
+  public get validation_id() {
+    return this.props.validation_id
+  }
+
+  public get checked() {
+    return this.props.checked
   }
 }

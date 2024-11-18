@@ -1,10 +1,10 @@
 import { makeRegisterUseCase } from "@/use-cases/factories/make-register-usecase";
-import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { IController } from "./controller";
 import { HttpResponse } from "@/ports/http";
-import { conflict, created } from "@/ports/http-helpers";
+import { conflict, created, serverError } from "@/ports/http-helpers";
 import { UserAlreadyExistsError } from "@/use-cases/errors/user-already-exists-error";
+import { EmailError } from "@/use-cases/errors/email-error";
 
 
 export class RegisterController implements IController {
@@ -25,6 +25,12 @@ export class RegisterController implements IController {
       } catch (error) {
         if(error instanceof UserAlreadyExistsError) {
           return conflict(error.message)
+        }
+
+        if(error instanceof EmailError) {
+          return serverError({
+            body: "Ocorreu um erro ao enviar o email!"
+          })
         }
 
         throw error;

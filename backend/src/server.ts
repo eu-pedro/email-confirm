@@ -3,6 +3,7 @@ import { prisma } from './lib/prisma'
 import nodemailer from 'nodemailer'
 import { app } from './app'
 import { appRoutes } from './http/routes'
+import { env } from './env'
 
 app.register(cors)
 
@@ -65,7 +66,7 @@ app.register(cors)
 // })
 
 app.listen({
-  port: 3333,
+  port: env.PORT,
 }).then(() => console.log("HTTP server is running!"))
 .catch((error) => {
   throw new Error(error)
